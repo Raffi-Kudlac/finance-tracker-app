@@ -1,12 +1,18 @@
 
-<div class="results-block">
-  <%= bootstrap_flash %>
-</div>
+<% if params[:action] == "search" %>
+  <div class="results-block">
+    <%= bootstrap_flash %>
+  </div>
+<% end %>
 
 <% if @stock %>
   <div class="well results-block">
     <strong>Symbol: <%= @stock.ticker %></strong>
     <strong>Name: <%= @stock.name %></strong>
     <strong>Last Price: <%= @stock.last_price %></strong>
+
+    <%= link_to "Add to my stocks", user_stocks_path(user: current_user,
+        stock_ticker: @stock.ticker), {class: "btn btn-xs btn-success",
+        method: :post} %>
   </div>
 <% end %>

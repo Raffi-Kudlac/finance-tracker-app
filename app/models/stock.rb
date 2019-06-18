@@ -1,5 +1,8 @@
 class Stock < ApplicationRecord
 
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
+
   def self.new_from_lookup(ticker_symbol)
 
     begin
@@ -15,6 +18,10 @@ class Stock < ApplicationRecord
     end
     return Stock.new(name: name, ticker: ticker,
        last_price: price)
+  end
+
+  def self.find_by_ticker(ticker)
+    return Stock.find_by(ticker: ticker)
   end
 
   def self.strip_commas(numb)
