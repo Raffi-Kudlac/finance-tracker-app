@@ -10,9 +10,20 @@
     <strong>Symbol: <%= @stock.ticker %></strong>
     <strong>Name: <%= @stock.name %></strong>
     <strong>Last Price: <%= @stock.last_price %></strong>
-
-    <%= link_to "Add to my stocks", user_stocks_path(user: current_user,
-        stock_ticker: @stock.ticker), {class: "btn btn-xs btn-success",
-        method: :post} %>
+    <% if current_user.can_add_stock?(@stock.ticker) %>
+      <%= link_to "Add to my stocks", user_stocks_path(user: current_user,
+          stock_ticker: @stock.ticker), {class: "btn btn-xs btn-success",
+          method: :post} %>
+    <% else %>
+      <% if !current_user.under_stock_limit? %>
+          <% error = "10 stocks" %>
+        <% elseif current_user.stock_already_added?(@stock.ticker) %>
+            <% error = "this stock" %>
+      <% end %>
+      <span class="label label-default">
+        Stock can not be added because you have already added
+        <%= error %>
+      </span>
+    <% end %>
   </div>
 <% end %>
