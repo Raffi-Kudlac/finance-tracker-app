@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'welcomes/index'
   get 'my_portfolio', to: "users#my_portfolio"
   root 'welcomes#index'
+  get 'my_friends', {to: "users#my_friends"}
 
   get 'search_stocks', to: "stocks#search"
 
