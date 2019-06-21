@@ -29,7 +29,8 @@ admin.save
   end
 end
 
-
+second = User.second
 5.times do |n|
   UserStock.create(user: admin, stock: stocks_array[n])
+  UserStock.create(user: second, stock: stocks_array[n])
 end
