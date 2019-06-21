@@ -12,10 +12,24 @@ symbols.each do |s|
   stocks_array.push(Stock.create(ticker: s, name: "Comp", last_price: 0.00))
 end
 
-user = User.create!(email: "test@test.com", password: "password",
-    password_confirmation: "password")
-user.save
+admin = User.create!(email: "test@test.com", first_name: "Admin",
+   last_name: "Admin", password: "password", password_confirmation: "password")
+admin.save
+
+20.times do |n|
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+  email = "#{first_name}.#{last_name}@hotmail.com"
+  user = User.create!(email: email, last_name: last_name,
+     first_name: first_name, password: "password",
+      password_confirmation: "password")
+  user.save
+  if (n < 10)
+    Friendship.create(user: admin, friend: user)
+  end
+end
+
 
 5.times do |n|
-  UserStock.create(user: user, stock: stocks_array[n])
+  UserStock.create(user: admin, stock: stocks_array[n])
 end
